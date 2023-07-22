@@ -1,38 +1,75 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
-import { useErrorBoundary } from "react-error-boundary";
+
+interface WeatherData {
+  name: string;
+  main: {
+    description: string;
+    temp: number;
+    humidity: number;
+    pressure: number;
+    windSpeed: number;
+  };
+}
 
 function App() {
-  
-     
-      const API_KEY = process.env.API_KEY;
-  
-      const [location, setLocation] = useState(""); //can also include country code ie {city name},{country code}
-      const [description, setDescription] = useState("");
-      const [temperature, setTemperature] = useState(0);
-      const [humidity, setHumidity] = useState(0);
-      const [windSpeed, setWindSpeed] = useState(0);
-      const [windDirection, setWindDirection] = useState(0);
-      const [pressure, setPressure] = useState(0);
+  const API_KEY = process.env.REACT_APP_API_KEY; // Get API key from .env file
+  const [location, setLocation] = useState("");
+  const [data, setData] = useState<WeatherData>({
+    name: "",
+    main: {
+      description: "",
+      temp: 0,
+      humidity: 0,
+      pressure: 0,
+      windSpeed: 0,
+    },
+  });
 
-      const [weather, setWeather] = useState({});
-      const [forecast, setForecast] = useState([]);
-  
-      const weatherURL = `https://api.openweathermap.org/data/2.5/weather?q=${location}&appid=${API_KEY}`;
-      const forecastURL = `https://api.openweathermap.org/data/2.5/forecast?q=&${location}&appid=${API_KEY}`;
-      
-      console.log('Location: ', location);
-    
+  const weatherURL = `https://api.openweathermap.org/data/2.5/weather?q=${location}&appid=${API_KEY}`;
+
+  const fetchWeatherData = async () => {
+    try {
+      const response = await fetch(weatherURL);
+      const data = await response.json();
+      setData(data);
+      console.log(data);
+    } catch (error) {
+      console.error("Error fetching weather data:", error);
+    }
+  };
+
+  useEffect(() => {
+    if (location && data.name === "") {
+      fetchWeatherData();
+    }
+  }, [location, data.name, weatherURL]);
+
+  const handleButtonClick = () => {
+    fetchWeatherData();
+  };
+
+  const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === "Enter") {
+      fetchWeatherData();
+    }
+  };
+
   return (
     <div className="App">
       <div className="search-container">
-        <input 
+        <input
           type="text"
           placeholder="Search..."
           value={location}
           onChange={(e) => setLocation(e.target.value)}
+          onKeyPress={handleKeyPress} // Call handleKeyPress when Enter is pressed
         />
-        <button>Search</button>
+        <button onClick={handleButtonClick}>Search</button>
+      </div>
+      <div className="weather-container">
+        {data.name && <h2>{data.name}</h2>}
+        {data.main && <p>Temperature: {data.main.temp}</p>}
       </div>
     </div>
   );
