@@ -4,7 +4,6 @@ import './App.css';
 interface WeatherData {
   name: string;
   main: {
-    description: string;
     temp: number;
     humidity: number;
     pressure: number;
@@ -12,7 +11,10 @@ interface WeatherData {
     temp_min: number;
     temp_max: number;
   };
-}
+  weather: {
+    main: string;
+}[]
+};
 
 interface ForecastData {
   list: {
@@ -33,7 +35,6 @@ function App() {
   const [weatherData, setWeatherData] = useState<WeatherData>({
     name: "",
     main: {
-      description: "",
       temp: 0,
       humidity: 0,
       pressure: 0,
@@ -41,6 +42,7 @@ function App() {
       temp_min: 0,
       temp_max: 0,
     },
+    weather: [],
   });
 const [forecastData, setForecastData] = useState<ForecastData>({
   list: {
@@ -116,7 +118,7 @@ const [forecastData, setForecastData] = useState<ForecastData>({
         {weatherData.main && <p>Humidity: {weatherData.main.humidity}</p>}  
         {weatherData.main && <p>Pressure: {weatherData.main.pressure}</p>}
         {weatherData.main && <p>Wind Speed: {weatherData.main.windSpeed}</p>}
-        {weatherData.main && <p>Description: {weatherData.main.description}</p>}
+        {weatherData.main && <p>Description: {weatherData.weather[0].main}</p>}
         {weatherData.main && <p>Min Temp: {weatherData.main.temp_min}</p>}
         {weatherData.main && <p>Max Temp: {weatherData.main.temp_max}</p>}
       </div>
