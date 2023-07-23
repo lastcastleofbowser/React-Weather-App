@@ -121,14 +121,14 @@ const [forecastData, setForecastData] = useState<ForecastData>({
       </div>
       <div className="weather-container">
         {weatherData.name && <h2>{weatherData.name}</h2>}
-        {weatherData.main && <p>Temperature: {weatherData.main.temp}</p>}
-        {weatherData.main && <p>Feels Like: {weatherData.main.feels_like}</p>}
-        {weatherData.wind && <p>Wind Speed: {weatherData.wind.speed}</p>}
-        {weatherData.main && <p>Humidity: {weatherData.main.humidity}</p>}  
-        {weatherData.main && <p>Pressure: {weatherData.main.pressure}</p>}
+        {weatherData.main && <p>Temperature: {weatherData.main.temp}°C</p>}
+        {weatherData.main && <p>Feels Like: {weatherData.main.feels_like}°C</p>}
+        {weatherData.wind && <p>Wind Speed: {weatherData.wind.speed} m/s</p>}
+        {weatherData.main && <p>Humidity: {weatherData.main.humidity}%</p>}  
+        {weatherData.main && <p>Pressure: {weatherData.main.pressure} hPa</p>}
         {Array.isArray(weatherData.weather) && weatherData.weather.length > 0 && ( <p>Description: {weatherData.weather[0].main}</p>)}
-        {weatherData.main && <p>Min Temp: {weatherData.main.temp_min}</p>}
-        {weatherData.main && <p>Max Temp: {weatherData.main.temp_max}</p>}
+        {weatherData.main && <p>Min Temp: {weatherData.main.temp_min}°C</p>}
+        {weatherData.main && <p>Max Temp: {weatherData.main.temp_max}°C</p>}
       </div>
       {/* <div className="forecast-container">
         {forecastData.list && <p>Forecast: {forecastData.list.dt_txt}</p>}
