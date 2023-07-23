@@ -4,10 +4,10 @@ import './App.css';
 interface WeatherData {
   name: string;
   main: {
+    feels_like: number;
     temp: number;
     humidity: number;
     pressure: number;
-    windSpeed: number;
     temp_min: number;
     temp_max: number;
   };
@@ -15,6 +15,9 @@ interface WeatherData {
     icon: string;
     main: string;
   }[];
+  wind: {
+    speed: number;
+  };
 }
 
 interface ForecastData {
@@ -36,14 +39,17 @@ function App() {
   const [weatherData, setWeatherData] = useState<WeatherData>({
     name: "",
     main: {
+      feels_like: 0,
       temp: 0,
       humidity: 0,
       pressure: 0,
-      windSpeed: 0,
       temp_min: 0,
       temp_max: 0,
     },
     weather: [],
+    wind: {
+      speed: 0,
+    },
   });
 const [forecastData, setForecastData] = useState<ForecastData>({
   list: {
@@ -116,9 +122,10 @@ const [forecastData, setForecastData] = useState<ForecastData>({
       <div className="weather-container">
         {weatherData.name && <h2>{weatherData.name}</h2>}
         {weatherData.main && <p>Temperature: {weatherData.main.temp}</p>}
+        {weatherData.main && <p>Feels Like: {weatherData.main.feels_like}</p>}
+        {weatherData.wind && <p>Wind Speed: {weatherData.wind.speed}</p>}
         {weatherData.main && <p>Humidity: {weatherData.main.humidity}</p>}  
         {weatherData.main && <p>Pressure: {weatherData.main.pressure}</p>}
-        {weatherData.main && <p>Wind Speed: {weatherData.main.windSpeed}</p>}
         {Array.isArray(weatherData.weather) && weatherData.weather.length > 0 && ( <p>Description: {weatherData.weather[0].main}</p>)}
         {weatherData.main && <p>Min Temp: {weatherData.main.temp_min}</p>}
         {weatherData.main && <p>Max Temp: {weatherData.main.temp_max}</p>}
