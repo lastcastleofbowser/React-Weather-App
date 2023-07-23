@@ -11,6 +11,9 @@ interface WeatherData {
     temp_min: number;
     temp_max: number;
   };
+  sys: {
+    country: string;
+  };
   weather: {
     icon: string;
     main: string;
@@ -45,6 +48,9 @@ function App() {
       pressure: 0,
       temp_min: 0,
       temp_max: 0,
+    },
+    sys: {
+      country: "",
     },
     weather: [],
     wind: {
@@ -120,7 +126,7 @@ const [forecastData, setForecastData] = useState<ForecastData>({
         <button onClick={handleButtonClick}>Search</button>
       </div>
       <div className="weather-container">
-        {weatherData.name && <h2>{weatherData.name}</h2>}
+        {weatherData.name && <h2>{weatherData.name}, {weatherData.sys.country}</h2>}
         {weatherData.main && <p>Temperature: {weatherData.main.temp}°C</p>}
         {weatherData.main && <p>Feels Like: {weatherData.main.feels_like}°C</p>}
         {weatherData.wind && <p>Wind Speed: {weatherData.wind.speed} m/s</p>}
