@@ -12,9 +12,10 @@ interface WeatherData {
     temp_max: number;
   };
   weather: {
+    icon: string;
     main: string;
-}[]
-};
+  }[];
+}
 
 interface ForecastData {
   list: {
@@ -118,7 +119,7 @@ const [forecastData, setForecastData] = useState<ForecastData>({
         {weatherData.main && <p>Humidity: {weatherData.main.humidity}</p>}  
         {weatherData.main && <p>Pressure: {weatherData.main.pressure}</p>}
         {weatherData.main && <p>Wind Speed: {weatherData.main.windSpeed}</p>}
-        {weatherData.main && <p>Description: {weatherData.weather[0].main}</p>}
+        {Array.isArray(weatherData.weather) && weatherData.weather.length > 0 && ( <p>Description: {weatherData.weather[0].main}</p>)}
         {weatherData.main && <p>Min Temp: {weatherData.main.temp_min}</p>}
         {weatherData.main && <p>Max Temp: {weatherData.main.temp_max}</p>}
       </div>
