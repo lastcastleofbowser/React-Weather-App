@@ -141,12 +141,12 @@ const [forecastData, setForecastData] = useState<ForecastData>({
           hour12: false
         }).format(new Date(forecastData.list[0].dt_txt))}</p>}
         {Array.isArray(forecastData.list) && forecastData.list.length > 0 && forecastData.list[0].weather && forecastData.list[0].weather.length > 0 && (
-  <p>Icon: <img
-    className="weatherIcon"
-    src={`http://openweathermap.org/img/wn/${forecastData.list[0].weather[0].icon}.png`}
-    alt={forecastData.list[0].weather[0].description}
-  /></p>
-)}
+         <p>Icon: <img
+           className="weatherIcon"
+           src={`http://openweathermap.org/img/wn/${forecastData.list[0].weather[0].icon}.png`}
+            alt={forecastData.list[0].weather[0].description}
+         /></p>     
+        )}
         {/* {forecastData.list && <p>Temperature: {forecastData.list.main.temp}</p>} */}
         
       </div>
