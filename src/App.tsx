@@ -32,7 +32,7 @@ interface ForecastData {
     weather: {
       icon: string;
       description: string;
-  }}};
+  }[]}};
 
 
 function App() {
@@ -63,10 +63,7 @@ const [forecastData, setForecastData] = useState<ForecastData>({
     main: {
       temp: 0,
     },
-    weather: {
-      icon: "",
-      description: "",
-    },
+    weather: [],
 }});
 
   const weatherURL = `https://api.openweathermap.org/data/2.5/weather?q=${location}&appid=${API_KEY}&units=metric`;
@@ -136,12 +133,23 @@ const [forecastData, setForecastData] = useState<ForecastData>({
         {weatherData.main && <p>Min Temp: {weatherData.main.temp_min}°C</p>}
         {weatherData.main && <p>Max Temp: {weatherData.main.temp_max}°C</p>}
       </div>
-      {/* <div className="forecast-container">
-        {forecastData.list && <p>Forecast: {forecastData.list.dt_txt}</p>}
-        {forecastData.list && <p>Temperature: {forecastData.list.main.temp}</p>}
-        {forecastData.list && <p>Icon: {forecastData.list.weather.icon}</p>}
-        {forecastData.list && <p>Description: {forecastData.list.weather.description}</p>}
-      </div> */}
+      <div className="forecast-container">
+        {Array.isArray (forecastData.list) && forecastData.list.length > 0 && 
+         <p>Time: {new Intl.DateTimeFormat(undefined, {
+          hour: 'numeric',
+          minute: 'numeric',
+          hour12: false
+        }).format(new Date(forecastData.list[0].dt_txt))}</p>}
+        {Array.isArray(forecastData.list) && forecastData.list.length > 0 && forecastData.list[0].weather && forecastData.list[0].weather.length > 0 && (
+  <p>Icon: <img
+    className="weatherIcon"
+    src={`http://openweathermap.org/img/wn/${forecastData.list[0].weather[0].icon}.png`}
+    alt={forecastData.list[0].weather[0].description}
+  /></p>
+)}
+        {/* {forecastData.list && <p>Temperature: {forecastData.list.main.temp}</p>} */}
+        
+      </div>
     </div>
   );
 }
