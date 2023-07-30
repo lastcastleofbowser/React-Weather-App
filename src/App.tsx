@@ -32,7 +32,9 @@ interface ForecastData {
     weather: {
       icon: string;
       description: string;
-  }[]}};
+  }[] | null
+  }[]
+};
 
 
 function App() {
@@ -57,14 +59,10 @@ function App() {
       speed: 0,
     },
   });
-const [forecastData, setForecastData] = useState<ForecastData>({
-  list: {
-    dt_txt: "",
-    main: {
-      temp: 0,
-    },
-    weather: [],
-}});
+
+  const [forecastData, setForecastData] = useState<ForecastData>({ list: [] });
+
+
 
   const weatherURL = `https://api.openweathermap.org/data/2.5/weather?q=${location}&appid=${API_KEY}&units=metric`;
   const forecastURL = `https://api.openweathermap.org/data/2.5/forecast?q=${location}&appid=${API_KEY}&units=metric`;
@@ -112,7 +110,10 @@ const [forecastData, setForecastData] = useState<ForecastData>({
 
   return (
     <div className="App">
+      <h1>Weather App</h1>
+
       <div className="search-container">
+
         <input
           type="text"
           placeholder="Search..."
@@ -121,8 +122,11 @@ const [forecastData, setForecastData] = useState<ForecastData>({
           onKeyDown={handleKeyDown}
         />
         <button onClick={handleButtonClick}>Search</button>
+
       </div>
+
       <div className="weather-container">
+
         {weatherData.name && <h2>{weatherData.name}, {weatherData.sys.country}</h2>}
         {weatherData.main && <p>Temperature: {weatherData.main.temp}°C</p>}
         {weatherData.main && <p>Feels Like: {weatherData.main.feels_like}°C</p>}
@@ -132,9 +136,31 @@ const [forecastData, setForecastData] = useState<ForecastData>({
         {Array.isArray(weatherData.weather) && weatherData.weather.length > 0 && ( <p>Description: {weatherData.weather[0].main}</p>)}
         {weatherData.main && <p>Min Temp: {weatherData.main.temp_min}°C</p>}
         {weatherData.main && <p>Max Temp: {weatherData.main.temp_max}°C</p>}
+
       </div>
+
       <div className="forecast-container">
-        {Array.isArray (forecastData.list) && forecastData.list.length > 0 && 
+        <h2>Forecast</h2>
+    {forecastData.list?.map((forecast, index) => (
+    <div className='day' key={index}>
+      <p>Time: {new Intl.DateTimeFormat(undefined, {
+        hour: 'numeric',
+        minute: 'numeric',
+        hour12: false
+      }).format(new Date(forecast.dt_txt))}</p>
+      <p>Temperature: {forecast.main.temp}°C</p>
+      <p>Icon: {forecast.weather?.[0]?.icon && (<img
+        className="weatherIcon"
+        src={`http://openweathermap.org/img/wn/${forecast.weather[0].icon}.png`}
+        alt={forecast.weather[0].description}
+      />
+      )}</p>
+    </div>
+  ))}
+</div>
+
+
+        {/* {Array.isArray (forecastData.list) && forecastData.list.length > 0 && 
          <p>Time: {new Intl.DateTimeFormat(undefined, {
           hour: 'numeric',
           minute: 'numeric',
@@ -146,12 +172,12 @@ const [forecastData, setForecastData] = useState<ForecastData>({
            src={`http://openweathermap.org/img/wn/${forecastData.list[0].weather[0].icon}.png`}
             alt={forecastData.list[0].weather[0].description}
          /></p>     
-        )}
+        )} */}
+
         {/* {forecastData.list && <p>Temperature: {forecastData.list.main.temp}</p>} */}
         
       </div>
-    </div>
-  );
+     );
 }
 
 export default App;
