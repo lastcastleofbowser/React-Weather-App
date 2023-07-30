@@ -69,6 +69,7 @@ function App() {
   const forecastURL = `https://api.openweathermap.org/data/2.5/forecast?q=${location}&appid=${API_KEY}&units=metric`;
   const [searchPerformed, setSearchPerformed] = useState(false); 
   const [isExpanded, setIsExpanded] = useState(false); 
+  const [loading, setLoading] = useState(false);
   
   const fetchWeatherData = async () => {
     try {
@@ -94,15 +95,18 @@ function App() {
   };
 
   useEffect(() => {
-    if (location && weatherData.name === "") {
+    if (location && weatherData.name === "" && searchPerformed) {
+      setLoading(true);
       fetchWeatherData();
       fetchForecastData();
     }
-  }, [location, weatherData.name, weatherURL]);
+  }, [location, weatherData.name, weatherURL, searchPerformed]);
 
   const handleButtonClick = () => {
     fetchWeatherData();
     fetchForecastData();
+    setSearchPerformed(true);
+    setLoading(true);
   };
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
@@ -163,7 +167,7 @@ function App() {
         <button className='details-btn' onClick={handleDetailsClick}>
           {isExpanded ? 'Hide Details' : 'Show Details'}
         </button>
-        
+
         {isExpanded && (
         <>
           {weatherData.main && <p className='details'>{weatherData.main.feels_like}°C</p>}
