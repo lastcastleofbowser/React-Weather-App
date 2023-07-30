@@ -67,8 +67,8 @@ function App() {
 
   const weatherURL = `https://api.openweathermap.org/data/2.5/weather?q=${location}&appid=${API_KEY}&units=metric`;
   const forecastURL = `https://api.openweathermap.org/data/2.5/forecast?q=${location}&appid=${API_KEY}&units=metric`;
-  const [searchPerformed, setSearchPerformed] = useState(false); // tracks if a search has been performed
-
+  const [searchPerformed, setSearchPerformed] = useState(false); 
+  const [isExpanded, setIsExpanded] = useState(false); 
   
   const fetchWeatherData = async () => {
     try {
@@ -112,6 +112,10 @@ function App() {
     }
   };
 
+  const handleDetailsClick = () => {
+    setIsExpanded(!isExpanded);
+  };
+
   return (
 
     <div className="main-container">
@@ -126,7 +130,7 @@ function App() {
           onChange={(e) => setLocation(e.target.value)}
           onKeyDown={handleKeyDown}
         />
-        <button onClick={handleButtonClick}>Search</button>
+        <button className='search-btn' onClick={handleButtonClick}>Search</button>
 
       </div>
 
@@ -149,13 +153,25 @@ function App() {
         </div>
 
         {weatherData.main && <p className='main-temp'>{weatherData.main.temp}°C</p>}
-        {weatherData.main && <p className='details'>{weatherData.main.feels_like}°C</p>}
-        {weatherData.wind && <p className='details'>{weatherData.wind.speed} m/s</p>}
-        {weatherData.main && <p className='details'>{weatherData.main.humidity}%</p>}  
-        {weatherData.main && <p className='details'>{weatherData.main.pressure} hPa</p>}
-        {Array.isArray(weatherData.weather) && weatherData.weather.length > 0 && ( <p>Description: {weatherData.weather[0].main}</p>)}
-        {weatherData.main && <p className='details'>Min Temp: {weatherData.main.temp_min}°C</p>}
-        {weatherData.main && <p className='details'>Max Temp: {weatherData.main.temp_max}°C</p>}
+        {Array.isArray(weatherData.weather) && weatherData.weather.length > 0 && ( <p className='description'>{weatherData.weather[0].main}</p>)}
+        
+        <div className='minmax'>
+            {weatherData.main && <p className='details'>H: {Math.round(weatherData.main.temp_max)}°C</p>}
+            {weatherData.main && <p className='details'>L: {Math.round(weatherData.main.temp_min)}°C</p>}
+        </div>
+
+        <button className='details-btn' onClick={handleDetailsClick}>
+          {isExpanded ? 'Hide Details' : 'Show Details'}
+        </button>
+        
+        {isExpanded && (
+        <>
+          {weatherData.main && <p className='details'>{weatherData.main.feels_like}°C</p>}
+          {weatherData.wind && <p className='details'>{weatherData.wind.speed} m/s</p>}
+          {weatherData.main && <p className='details'>{weatherData.main.humidity}%</p>}  
+          {weatherData.main && <p className='details'>{weatherData.main.pressure} hPa</p>}
+        </>
+        )}
 
       </div>
 
@@ -174,7 +190,7 @@ function App() {
               alt={forecast.weather[0].description}
             />
             )}</p>
-            <p className='temp'>{forecast.main.temp}°C</p>
+            <p className='temp'>{Math.round(forecast.main.temp)}°C</p>
           </div>
         ))}
 
