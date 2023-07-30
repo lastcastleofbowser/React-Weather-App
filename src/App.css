@@ -1,6 +1,66 @@
-.App {
-  margin-top: 3rem;
-  text-align: center;
+* {
+  box-sizing: border-box;
+  margin: 0.5rem;
+  padding: 0;
 }
 
+body {
+  display: flex;
+  justify-content: center; /* Horizontally center the .app-container */
+  align-items: center; /* Vertically center the .app-container */
+  min-height: 100vh; /* Ensure the body covers at least the viewport height */
+  background-color: #f3f4f6; /* Set a background color for the body */
+}
 
+.app-container {
+  max-width: 700px;
+  height: auto;
+  margin: auto;
+  padding: 0 1rem;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border-radius: 12px;
+  background-color: #ebe8fc;
+}
+
+.forecast-container {
+  background-color: #FFFFFF;
+  display: flex;
+  flex-direction: row;
+  justify-content:flex-start;
+  align-items: flex-start;
+  border-radius: 12px;
+  font-size: 1.2rem;
+  }
+
+  input {
+    border: 1px solid #D1D5DB;
+    color: #111827;
+    font-size: .9rem;
+    line-height: 0.8rem;
+    padding: .6rem 1rem;
+    border-radius: .5rem;
+    z-index: 1000;
+  }
+
+  button {
+    background-color: #FFFFFF;
+    border: 0;
+    border-radius: .5rem;
+    box-sizing: border-box;
+    color: #111827;
+    font-size: .9rem;
+    line-height: 0.8rem;
+    padding: .6rem 1rem;
+    margin: 10px;
+    text-align: center;
+    text-decoration: none #D1D5DB solid;
+   
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+    cursor: pointer;
+    -webkit-user-select: none;
+    user-select: none;
+    touch-action: manipulation;
+  }

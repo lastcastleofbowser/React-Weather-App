@@ -66,13 +66,16 @@ function App() {
 
   const weatherURL = `https://api.openweathermap.org/data/2.5/weather?q=${location}&appid=${API_KEY}&units=metric`;
   const forecastURL = `https://api.openweathermap.org/data/2.5/forecast?q=${location}&appid=${API_KEY}&units=metric`;
+  const [searchPerformed, setSearchPerformed] = useState(false); // tracks if a search has been performed
 
+  
   const fetchWeatherData = async () => {
     try {
       const response = await fetch(weatherURL);
       const data = await response.json();
       setWeatherData(data);
-      console.log("Weather Data:", data);
+      // console.log("Weather Data:", data);
+      setSearchPerformed(true);
     } catch (error) {
       console.error("Error fetching weather data:", error);
     }
@@ -83,7 +86,7 @@ function App() {
       const response = await fetch(forecastURL);
       const data = await response.json();
       setForecastData(data);
-      console.log("Forecast Data:", data);
+      // console.log("Forecast Data:", data);
     } catch (error) {
       console.error("Error fetching forecast data:", error);
     }
@@ -109,7 +112,8 @@ function App() {
   };
 
   return (
-    <div className="App">
+
+    <div className="app-container">
       <h1>Weather App</h1>
 
       <div className="search-container">
@@ -125,7 +129,10 @@ function App() {
 
       </div>
 
-      <div className="weather-container">
+{searchPerformed && (
+<div>
+
+<div className="weather-container">
 
         {weatherData.name && <h2>{weatherData.name}, {weatherData.sys.country}</h2>}
         {weatherData.main && <p>Temperature: {weatherData.main.temp}°C</p>}
@@ -139,45 +146,35 @@ function App() {
 
       </div>
 
-      <div className="forecast-container">
-        <h2>Forecast</h2>
-    {forecastData.list?.map((forecast, index) => (
-    <div className='day' key={index}>
-      <p>Time: {new Intl.DateTimeFormat(undefined, {
-        hour: 'numeric',
-        minute: 'numeric',
-        hour12: false
-      }).format(new Date(forecast.dt_txt))}</p>
-      <p>Temperature: {forecast.main.temp}°C</p>
-      <p>Icon: {forecast.weather?.[0]?.icon && (<img
-        className="weatherIcon"
-        src={`http://openweathermap.org/img/wn/${forecast.weather[0].icon}.png`}
-        alt={forecast.weather[0].description}
-      />
-      )}</p>
-    </div>
-  ))}
+       <div className="forecast-container">
+
+        {forecastData.list?.slice(0, 5).map((forecast, index) => (
+          <div className='day' key={index}>
+            <p className='time'>{new Intl.DateTimeFormat(undefined, {
+              hour: 'numeric',
+              minute: 'numeric',
+              hour12: false
+            }).format(new Date(forecast.dt_txt))}</p>
+            <p>{forecast.weather?.[0]?.icon && (<img
+              className="weatherIcon"
+              src={`http://openweathermap.org/img/wn/${forecast.weather[0].icon}.png`}
+              alt={forecast.weather[0].description}
+            />
+            )}</p>
+            <p className='temp'>{forecast.main.temp}°C</p>
+          </div>
+        ))}
+
+      </div>     
+
+
 </div>
+)}
+      
+    </div>
+  
+);
 
-
-        {/* {Array.isArray (forecastData.list) && forecastData.list.length > 0 && 
-         <p>Time: {new Intl.DateTimeFormat(undefined, {
-          hour: 'numeric',
-          minute: 'numeric',
-          hour12: false
-        }).format(new Date(forecastData.list[0].dt_txt))}</p>}
-        {Array.isArray(forecastData.list) && forecastData.list.length > 0 && forecastData.list[0].weather && forecastData.list[0].weather.length > 0 && (
-         <p>Icon: <img
-           className="weatherIcon"
-           src={`http://openweathermap.org/img/wn/${forecastData.list[0].weather[0].icon}.png`}
-            alt={forecastData.list[0].weather[0].description}
-         /></p>     
-        )} */}
-
-        {/* {forecastData.list && <p>Temperature: {forecastData.list.main.temp}</p>} */}
-        
-      </div>
-     );
 }
 
 export default App;
