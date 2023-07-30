@@ -1,6 +1,6 @@
 * {
   box-sizing: border-box;
-  margin: 0.5rem;
+  margin: 0.2rem 0.5rem;
   padding: 0;
 }
 
@@ -12,7 +12,7 @@ body {
   background-color: #f3f4f6; /* Set a background color for the body */
 }
 
-.app-container {
+.main-container {
   max-width: 700px;
   height: auto;
   margin: auto;
@@ -23,6 +23,33 @@ body {
   justify-content: space-between;
   border-radius: 12px;
   background-color: #ebe8fc;
+}
+
+.weather-details{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 0;
+}
+
+.city {
+  font-size: 2rem;
+  font-weight: 700;
+  padding: 0;
+  margin: 0;
+}
+
+.weather-icon{
+  width: 50px;
+  height: 50px;
+  margin: 0rem;
+  padding: 0;
+}
+
+.main-temp{
+  font-size: 5rem;
+  font-weight: 700;
+  padding: 0;
 }
 
 .forecast-container {
@@ -43,6 +70,7 @@ body {
     padding: .6rem 1rem;
     border-radius: .5rem;
     z-index: 1000;
+  
   }
 
   button {

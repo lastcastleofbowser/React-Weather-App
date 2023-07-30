@@ -17,6 +17,7 @@ interface WeatherData {
   weather: {
     icon: string;
     main: string;
+    description: string;
   }[];
   wind: {
     speed: number;
@@ -74,7 +75,7 @@ function App() {
       const response = await fetch(weatherURL);
       const data = await response.json();
       setWeatherData(data);
-      // console.log("Weather Data:", data);
+      console.log("Weather Data:", data);
       setSearchPerformed(true);
     } catch (error) {
       console.error("Error fetching weather data:", error);
@@ -113,14 +114,14 @@ function App() {
 
   return (
 
-    <div className="app-container">
+    <div className="main-container">
       <h1>Weather App</h1>
 
       <div className="search-container">
 
         <input
           type="text"
-          placeholder="Search..."
+          placeholder="Enter a City..."
           value={location}
           onChange={(e) => setLocation(e.target.value)}
           onKeyDown={handleKeyDown}
@@ -134,21 +135,33 @@ function App() {
 
 <div className="weather-container">
 
-        {weatherData.name && <h2>{weatherData.name}, {weatherData.sys.country}</h2>}
-        {weatherData.main && <p>Temperature: {weatherData.main.temp}°C</p>}
-        {weatherData.main && <p>Feels Like: {weatherData.main.feels_like}°C</p>}
-        {weatherData.wind && <p>Wind Speed: {weatherData.wind.speed} m/s</p>}
-        {weatherData.main && <p>Humidity: {weatherData.main.humidity}%</p>}  
-        {weatherData.main && <p>Pressure: {weatherData.main.pressure} hPa</p>}
+      <div className="weather-details">
+          {weatherData.weather?.[0]?.icon && (
+            <img
+              className="weather-icon"
+              src={`http://openweathermap.org/img/wn/${weatherData.weather[0].icon}.png`}
+              alt={weatherData.weather[0].description}
+            />
+          )}
+          {weatherData.name && (
+            <h2 className="city">{weatherData.name}, {weatherData.sys.country}</h2>
+          )}
+        </div>
+
+        {weatherData.main && <p className='main-temp'>{weatherData.main.temp}°C</p>}
+        {weatherData.main && <p className='details'>{weatherData.main.feels_like}°C</p>}
+        {weatherData.wind && <p className='details'>{weatherData.wind.speed} m/s</p>}
+        {weatherData.main && <p className='details'>{weatherData.main.humidity}%</p>}  
+        {weatherData.main && <p className='details'>{weatherData.main.pressure} hPa</p>}
         {Array.isArray(weatherData.weather) && weatherData.weather.length > 0 && ( <p>Description: {weatherData.weather[0].main}</p>)}
-        {weatherData.main && <p>Min Temp: {weatherData.main.temp_min}°C</p>}
-        {weatherData.main && <p>Max Temp: {weatherData.main.temp_max}°C</p>}
+        {weatherData.main && <p className='details'>Min Temp: {weatherData.main.temp_min}°C</p>}
+        {weatherData.main && <p className='details'>Max Temp: {weatherData.main.temp_max}°C</p>}
 
       </div>
 
        <div className="forecast-container">
 
-        {forecastData.list?.slice(0, 5).map((forecast, index) => (
+        {forecastData.list?.slice(1, 6).map((forecast, index) => (
           <div className='day' key={index}>
             <p className='time'>{new Intl.DateTimeFormat(undefined, {
               hour: 'numeric',
