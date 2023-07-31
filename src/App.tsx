@@ -168,25 +168,31 @@ function App() {
 
         {isExpanded && (
         <div className='hidden-details-container'>
+
         <div className='hidden-details'>
-          {weatherData.main && <img className="hidden-icon" src={`./icons/feelsliketemp.png`} alt={'feelslike'}/>}
-          {weatherData.main && <p className='hidden-details'>{weatherData.main.feels_like}°C</p>}
+          {<p className='hidden-title'>Feels Like</p>}
+          {weatherData.main && <img className="hidden-icon" src={`/icons/feelsliketemp.png`} alt={'feelslike'}/>}
+          {weatherData.main && <p className='hidden-info'>{weatherData.main.feels_like}°C</p>}
         </div>
 
         <div className='hidden-details'>
-          {weatherData.main && <img className="hidden-icon" src={`./icons/windspeed.png`} alt={'wind'}/>}
-          {weatherData.wind && <p className='hidden-details'>{weatherData.wind.speed} m/s</p>}
+          {<p className='hidden-title'>Wind Speed</p>}
+          {weatherData.main && <img className="hidden-icon" src={`/icons/windspeed.png`} alt={'wind'}/>}
+          {weatherData.wind && <p className='hidden-info'>{weatherData.wind.speed} m/s</p>}
         </div>
           
           <div className='hidden-details'>
-            {weatherData.main && <img className="hidden-icon" src={`./icons/humidity.png`} alt={'humidity'}/>}
-            {weatherData.main && <p>{weatherData.main.humidity}%</p>}  
+            {<p className='hidden-title'>Humidity</p>}
+            {weatherData.main && <img className="hidden-icon" src={`/icons/humidity.png`} alt={'humidity'}/>}
+            {weatherData.main && <p className='hidden-info'>{weatherData.main.humidity}%</p>}  
           </div>
 
           <div className='hidden-details'>
-            {weatherData.main && <img className="hidden-icon" src={`./icons/pressure.png`} alt={'pressure'}/>}
-            {weatherData.main && <p className='hidden-details'>{weatherData.main.pressure} hPa</p>}
+            {<p className='hidden-title'>Pressure</p>}
+            {weatherData.main && <img className="hidden-icon" src={`/icons/pressure.png`} alt={'pressure'}/>}
+            {weatherData.main && <p className='hidden-info'>{weatherData.main.pressure} hPa</p>}
           </div>
+          
         </div>
         )}
 
