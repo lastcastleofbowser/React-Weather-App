@@ -63,8 +63,6 @@ function App() {
 
   const [forecastData, setForecastData] = useState<ForecastData>({ list: [] });
 
-
-
   const weatherURL = `https://api.openweathermap.org/data/2.5/weather?q=${location}&appid=${API_KEY}&units=metric`;
   const forecastURL = `https://api.openweathermap.org/data/2.5/forecast?q=${location}&appid=${API_KEY}&units=metric`;
   const [searchPerformed, setSearchPerformed] = useState(false); 
@@ -169,12 +167,27 @@ function App() {
         </button>
 
         {isExpanded && (
-        <>
-          {weatherData.main && <p className='details'>{weatherData.main.feels_like}°C</p>}
-          {weatherData.wind && <p className='details'>{weatherData.wind.speed} m/s</p>}
-          {weatherData.main && <p className='details'>{weatherData.main.humidity}%</p>}  
-          {weatherData.main && <p className='details'>{weatherData.main.pressure} hPa</p>}
-        </>
+        <div className='hidden-details-container'>
+        <div className='hidden-details'>
+          {weatherData.main && <img className="hidden-icon" src={`./icons/feelsliketemp.png`} alt={'feelslike'}/>}
+          {weatherData.main && <p className='hidden-details'>{weatherData.main.feels_like}°C</p>}
+        </div>
+
+        <div className='hidden-details'>
+          {weatherData.main && <img className="hidden-icon" src={`./icons/windspeed.png`} alt={'wind'}/>}
+          {weatherData.wind && <p className='hidden-details'>{weatherData.wind.speed} m/s</p>}
+        </div>
+          
+          <div className='hidden-details'>
+            {weatherData.main && <img className="hidden-icon" src={`./icons/humidity.png`} alt={'humidity'}/>}
+            {weatherData.main && <p>{weatherData.main.humidity}%</p>}  
+          </div>
+
+          <div className='hidden-details'>
+            {weatherData.main && <img className="hidden-icon" src={`./icons/pressure.png`} alt={'pressure'}/>}
+            {weatherData.main && <p className='hidden-details'>{weatherData.main.pressure} hPa</p>}
+          </div>
+        </div>
         )}
 
       </div>
@@ -189,7 +202,7 @@ function App() {
               hour12: false
             }).format(new Date(forecast.dt_txt))}</p>
             <p>{forecast.weather?.[0]?.icon && (<img
-              className="weatherIcon"
+              className="forecast-icon"
               src={`http://openweathermap.org/img/wn/${forecast.weather[0].icon}.png`}
               alt={forecast.weather[0].description}
             />

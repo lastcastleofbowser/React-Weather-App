@@ -112,6 +112,27 @@ h1{
 
   }
 
+  .hidden-details-container{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: flex-start;
+    padding: 0.5rem;
+    margin: 0;
+  }
+
+  .hidden-details{
+    display: flex;
+    flex-direction: column;
+    background-color: #FFFFFF;
+    border-radius: 12px;
+    font-size: 1.2rem;
+    justify-content: flex-start;
+    align-items: flex-start;
+    padding: 0.5rem;
+    height: 7rem;
+  }
+
   .forecast-container {
     background-color: #FFFFFF;
     display: flex;
@@ -120,6 +141,6 @@ h1{
     align-items: flex-start;
     border-radius: 12px;
     font-size: 1.2rem;
-    margin: 0.75rem 0 0.75rem 0;
+    margin: 0.75rem;
     }
   
