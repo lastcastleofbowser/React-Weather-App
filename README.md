@@ -1,6 +1,10 @@
 # React-Weather-App
 A Typescript weather app using OpenWeather API information
 
+Try it for yourself
+
+https://lastcastleofbowser.github.io/React-Weather-App/
+
 # Features
 - Pulls data from OpenWeather API
 - Displays current weather and 3 hour forecast, including icons
